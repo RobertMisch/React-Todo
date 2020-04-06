@@ -28,10 +28,18 @@ class App extends React.Component {
   }
   
 
-//our functionality for TodoList
+//functionality for TodoList
 
 toggleItems(itemId){
   console.log(itemId)
+  this.setState({
+    todoItems: this.state.todoItems.map(item =>{
+      if(itemId === item.id)
+      return{
+        ...item, completed: !item.completed
+      }
+    })
+  })
 }
 
 addTodo(event, item){
@@ -42,20 +50,25 @@ addTodo(event, item){
     completed: false
   }
   this.setState({
-    TodoItems: [...this.state.TodoItems, newTodo]
+    todoItems: [...this.state.todoItems, newTodo]
   })
 }
 
-clearCompleted(){
+clearCompleted(event){
+  event.preventDefault();
 
+  this.setState({
+    todoItems: this.state.todoItems.filter(item => !item.completed)
+  })
 }
 
-//our functionality for TodoForm
-handleChanges(){
-
+//functionality for TodoForm
+handleChanges(event){
+  this.setState({[event.target.name]: event.target.value})
 }
-submitChanges(){
-
+submitChanges(event){
+  this.setState({task:''})
+  this.props.addItem(event, this.state.task)
 }
 
 render(){
@@ -64,7 +77,7 @@ render(){
       <div>
         <h2>Welcome to your Todo App!</h2>
         <TodoList /*todo state, toggleitem*/
-          TodoItems={this.state.todoItems}
+          todoItems={this.state.todoItems}
           toggleItems={this.toggleItems}
         />
         <TodoForm /*add todo button, clear completed*/
