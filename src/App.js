@@ -23,26 +23,29 @@ class App extends React.Component {
   constructor(){
     super();
     this.state = {
-      todoItems
+      todoItems:todoItems
     };
   }
   
 
 //functionality for TodoList
 
-toggleItems(itemId){
-  console.log(itemId)
+toggleItems= (itemId) => {
+  console.log(this.state.todoItems)
   this.setState({
     todoItems: this.state.todoItems.map(item =>{
-      if(itemId === item.id)
-      return{
-        ...item, completed: !item.completed
+      if(itemId === item.id){
+          console.log(item.completed)
+        return{
+          ...item, completed: !item.completed
+        }
       }
+      return item;
     })
   })
 }
 
-addTodo(event, item){
+addTodo= (event, item)=>{
   event.preventDefault();
   const newTodo ={
     task: item,
@@ -54,22 +57,22 @@ addTodo(event, item){
   })
 }
 
-clearCompleted(event){
+clearCompleted = (event)=>{
   event.preventDefault();
 
   this.setState({
-    todoItems: this.state.todoItems.filter(item => !item.completed)
+    todoItems: this.state.todoItems.filter(item => todoItems.completed === false)
   })
 }
 
 //functionality for TodoForm
-handleChanges(event){
-  this.setState({[event.target.name]: event.target.value})
-}
-submitChanges(event){
-  this.setState({task:''})
-  this.props.addItem(event, this.state.task)
-}
+// handleChanges = (event) =>{
+//   this.setState({[event.target.name]: event.target.value})
+// }
+// submitChanges = (event)=>{
+//   this.setState({task:''})
+//   this.props.addItem(event, this.state.task)
+// }
 
 render(){
   console.log('rendering')
@@ -83,8 +86,6 @@ render(){
         <TodoForm /*add todo button, clear completed*/
           addTodo={this.addTodo}
           clearCompleted={this.clearCompleted}
-          handleChanges={this.handleChanges}
-          submitChanges={this.submitChanges}
         />
       </div>
     );
